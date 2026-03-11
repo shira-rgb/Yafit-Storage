@@ -3,6 +3,8 @@ import { DataGrid, type GridColDef } from "@mui/x-data-grid";
 import { useNavigation } from "@refinedev/core";
 import { Chip } from "@mui/material";
 
+const HIDDEN_PRODUCTS = ["general", "curl_types"];
+
 const columns: GridColDef[] = [
   {
     field: "name_hebrew",
@@ -49,18 +51,17 @@ export const ProductList = () => {
     sorters: {
       initial: [{ field: "sort_order", order: "asc" }],
     },
-    filters: {
-      permanent: [
-            { field: "name", operator: "ne", value: "general" },
-            { field: "name", operator: "ne", value: "curl_types" },
-          ],
-    },
   });
+
+  const filteredRows = (dataGridProps.rows ?? []).filter(
+    (row: any) => !HIDDEN_PRODUCTS.includes(row.name)
+  );
 
   return (
     <List title="מוצרים">
       <DataGrid
         {...dataGridProps}
+        rows={filteredRows}
         columns={columns}
         autoHeight
         onRowClick={(params) => edit("products", params.id)}
