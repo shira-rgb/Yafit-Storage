@@ -181,14 +181,13 @@ export const ProductEdit = () => {
                 render={({ field }) => (
                   <TextField
                     fullWidth
-                    type="number"
                     size="small"
                     value={field.value ?? ""}
                     onChange={(e) => {
-                      const val = e.target.value;
-                      field.onChange(val === "" ? null : parseInt(val, 10));
+                      const raw = e.target.value.replace(/[^0-9]/g, "");
+                      field.onChange(raw === "" ? null : Number(raw));
                     }}
-                    inputProps={{ style: { textAlign: "right" }, step: 1 }}
+                    inputProps={{ style: { textAlign: "right" }, inputMode: "numeric", pattern: "[0-9]*" }}
                   />
                 )}
               />
@@ -202,14 +201,13 @@ export const ProductEdit = () => {
                 render={({ field }) => (
                   <TextField
                     fullWidth
-                    type="number"
                     size="small"
                     value={field.value ?? ""}
                     onChange={(e) => {
-                      const val = e.target.value;
-                      field.onChange(val === "" ? null : parseInt(val, 10));
+                      const raw = e.target.value.replace(/[^0-9]/g, "");
+                      field.onChange(raw === "" ? null : Number(raw));
                     }}
-                    inputProps={{ style: { textAlign: "right" }, step: 1 }}
+                    inputProps={{ style: { textAlign: "right" }, inputMode: "numeric", pattern: "[0-9]*" }}
                   />
                 )}
               />
