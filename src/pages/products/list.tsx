@@ -50,7 +50,10 @@ export const ProductList = () => {
       initial: [{ field: "sort_order", order: "asc" }],
     },
     filters: {
-      permanent: [{ field: "name", operator: "nin", value: ["general", "curl_types"] }],
+      permanent: [
+            { field: "name", operator: "ne", value: "general" },
+            { field: "name", operator: "ne", value: "curl_types" },
+          ],
     },
   });
 
