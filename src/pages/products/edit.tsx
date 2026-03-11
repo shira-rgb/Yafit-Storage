@@ -8,6 +8,7 @@ import {
   FormControlLabel,
   Switch,
   Divider,
+  MenuItem,
 } from "@mui/material";
 import type { ReactNode } from "react";
 import { Controller } from "react-hook-form";
@@ -63,6 +64,27 @@ export const ProductEdit = () => {
                 rows={3}
                 size="small"
                 {...register("description")}
+              />
+            </Field>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Field label="פתרון כללי">
+              <Controller
+                control={control}
+                name="general_solution"
+                render={({ field }) => (
+                  <TextField
+                    fullWidth
+                    select
+                    size="small"
+                    value={field.value || ""}
+                    onChange={(e) => field.onChange(e.target.value || null)}
+                  >
+                    <MenuItem value="">ללא</MenuItem>
+                    <MenuItem value="דלילות שיער מקדימה">דלילות שיער מקדימה</MenuItem>
+                    <MenuItem value="דלילות שיער מאחורה">דלילות שיער מאחורה</MenuItem>
+                  </TextField>
+                )}
               />
             </Field>
           </Grid>

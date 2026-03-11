@@ -23,6 +23,12 @@ const columns: GridColDef[] = [
     renderCell: ({ value }) => (value ? `₪${value}` : "-"),
   },
   {
+    field: "general_solution",
+    headerName: "פתרון כללי",
+    width: 180,
+    renderCell: ({ value }) => value || "-",
+  },
+  {
     field: "is_active",
     headerName: "סטטוס",
     width: 100,
