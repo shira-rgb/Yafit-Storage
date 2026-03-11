@@ -9,6 +9,8 @@ import {
   Switch,
   Divider,
   MenuItem,
+  Chip,
+  Autocomplete,
 } from "@mui/material";
 import type { ReactNode } from "react";
 import { Controller } from "react-hook-form";
@@ -25,6 +27,57 @@ const Field = ({ label, children }: { label: string; children: ReactNode }) => (
   </Box>
 );
 
+const TagsField = ({
+  label,
+  control,
+  name,
+}: {
+  label: string;
+  control: any;
+  name: string;
+}) => (
+  <Field label={label}>
+    <Controller
+      control={control}
+      name={name}
+      render={({ field }) => {
+        const values: string[] = Array.isArray(field.value)
+          ? field.value
+          : field.value
+            ? String(field.value).split(",").map((s: string) => s.trim()).filter(Boolean)
+            : [];
+        return (
+          <Autocomplete
+            multiple
+            freeSolo
+            options={[]}
+            value={values}
+            onChange={(_e, newValue) => field.onChange(newValue)}
+            renderTags={(value, getTagProps) =>
+              value.map((option, index) => (
+                <Chip
+                  variant="outlined"
+                  label={option}
+                  size="small"
+                  {...getTagProps({ index })}
+                  key={index}
+                />
+              ))
+            }
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                size="small"
+                placeholder="הקלד וליחץ Enter להוספה"
+              />
+            )}
+          />
+        );
+      }}
+    />
+  </Field>
+);
+
 export const ProductEdit = () => {
   const {
     saveButtonProps,
@@ -34,6 +87,7 @@ export const ProductEdit = () => {
   } = useForm({
     refineCoreProps: {
       resource: "products",
+      redirect: false,
     },
   });
 
@@ -169,92 +223,16 @@ export const ProductEdit = () => {
             </Field>
           </Grid>
           <Grid item xs={12} md={6}>
-            <Field label="סוגי שיער (הפרדה בפסיק)">
-              <Controller
-                control={control}
-                name="hair_types"
-                render={({ field }) => (
-                  <TextField
-                    fullWidth
-                    size="small"
-                    value={Array.isArray(field.value) ? field.value.join(", ") : field.value || ""}
-                    onChange={(e) => {
-                      const arr = e.target.value
-                        .split(",")
-                        .map((s: string) => s.trim())
-                        .filter(Boolean);
-                      field.onChange(arr);
-                    }}
-                  />
-                )}
-              />
-            </Field>
+            <TagsField label="סוגי שיער" control={control} name="hair_types" />
           </Grid>
           <Grid item xs={12} md={6}>
-            <Field label="סוג שיער (הפרדה בפסיק)">
-              <Controller
-                control={control}
-                name="textures"
-                render={({ field }) => (
-                  <TextField
-                    fullWidth
-                    size="small"
-                    value={Array.isArray(field.value) ? field.value.join(", ") : field.value || ""}
-                    onChange={(e) => {
-                      const arr = e.target.value
-                        .split(",")
-                        .map((s: string) => s.trim())
-                        .filter(Boolean);
-                      field.onChange(arr);
-                    }}
-                  />
-                )}
-              />
-            </Field>
+            <TagsField label="סוג שיער" control={control} name="textures" />
           </Grid>
           <Grid item xs={12} md={6}>
-            <Field label="אורכי שיער מתאימים (הפרדה בפסיק)">
-              <Controller
-                control={control}
-                name="suitable_hair_lengths"
-                render={({ field }) => (
-                  <TextField
-                    fullWidth
-                    size="small"
-                    value={Array.isArray(field.value) ? field.value.join(", ") : field.value || ""}
-                    onChange={(e) => {
-                      const arr = e.target.value
-                        .split(",")
-                        .map((s: string) => s.trim())
-                        .filter(Boolean);
-                      field.onChange(arr);
-                    }}
-                  />
-                )}
-              />
-            </Field>
+            <TagsField label="אורכי שיער מתאימים" control={control} name="suitable_hair_lengths" />
           </Grid>
           <Grid item xs={12} md={6}>
-            <Field label="מילות מפתח (הפרדה בפסיק)">
-              <Controller
-                control={control}
-                name="matching_keywords"
-                render={({ field }) => (
-                  <TextField
-                    fullWidth
-                    size="small"
-                    value={Array.isArray(field.value) ? field.value.join(", ") : field.value || ""}
-                    onChange={(e) => {
-                      const arr = e.target.value
-                        .split(",")
-                        .map((s: string) => s.trim())
-                        .filter(Boolean);
-                      field.onChange(arr);
-                    }}
-                  />
-                )}
-              />
-            </Field>
+            <TagsField label="מילות מפתח" control={control} name="matching_keywords" />
           </Grid>
         </Grid>
 
