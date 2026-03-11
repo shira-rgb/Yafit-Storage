@@ -175,23 +175,43 @@ export const ProductEdit = () => {
         <Grid container spacing={2}>
           <Grid item xs={12} md={6}>
             <Field label="מחיר מינימלי (₪)">
-              <TextField
-                fullWidth
-                type="number"
-                size="small"
-                {...register("price_min", { valueAsNumber: true })}
-                inputProps={{ style: { textAlign: "right" } }}
+              <Controller
+                control={control}
+                name="price_min"
+                render={({ field }) => (
+                  <TextField
+                    fullWidth
+                    type="number"
+                    size="small"
+                    value={field.value ?? ""}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      field.onChange(val === "" ? null : parseInt(val, 10));
+                    }}
+                    inputProps={{ style: { textAlign: "right" }, step: 1 }}
+                  />
+                )}
               />
             </Field>
           </Grid>
           <Grid item xs={12} md={6}>
             <Field label="מחיר מקסימלי (₪)">
-              <TextField
-                fullWidth
-                type="number"
-                size="small"
-                {...register("price_max", { valueAsNumber: true })}
-                inputProps={{ style: { textAlign: "right" } }}
+              <Controller
+                control={control}
+                name="price_max"
+                render={({ field }) => (
+                  <TextField
+                    fullWidth
+                    type="number"
+                    size="small"
+                    value={field.value ?? ""}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      field.onChange(val === "" ? null : parseInt(val, 10));
+                    }}
+                    inputProps={{ style: { textAlign: "right" }, step: 1 }}
+                  />
+                )}
               />
             </Field>
           </Grid>
